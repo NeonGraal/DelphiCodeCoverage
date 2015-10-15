@@ -49,8 +49,13 @@ type
       const ARootElement: TJclSimpleXMLElem;
       const AMethod: TProcedureInfo);
 
-    procedure AddCoverageElement(const RootElement: TJclSimpleXMLElem;
-      const AType: string; const TotalCoveredCount, TotalCount: Integer);
+    procedure AddUncoveredLinesElement(
+      const RootElement: TJclSimpleXMLElem;
+      const AUncoveredLines: TArray<Integer>);
+    procedure AddCoverageElement(
+      const RootElement: TJclSimpleXMLElem;
+      const AType: string;
+      const TotalCoveredCount, TotalCount: Integer);
     function GetCoverageStringValue(const ACovered, ATotal: Integer): string;
   public
     constructor Create(const ACoverageConfiguration: ICoverageConfiguration);
@@ -195,6 +200,41 @@ begin
   );
 end;
 
+procedure TXMLCoverageReport.AddUncoveredLinesElement(const RootElement: TJclSimpleXMLElem;
+  const AUncoveredLines: TArray<Integer>);
+var
+  UncoveredLinesElement: TJclSimpleXMLElem;
+  LinesList, Sep: String;
+  LineNo, LastLine: Integer;
+
+begin
+  LinesList := '';
+  Sep := '';
+  LastLine := -1;
+  for LineNo in AUncoveredLines do
+  begin
+    if LineNo = (LastLine + 1) then
+    begin
+      if Sep <> '-' then
+        LinesList := LinesList + Sep + IntToStr(LastLine);
+      Sep := '-';
+    end
+    else
+    begin
+      if LastLine > 0 then
+      begin
+        LinesList := LinesList + Sep + IntToStr(LastLine);
+        Sep := ',';
+      end;
+    end;
+    LastLine := LineNo;
+  end;
+  if LastLine > 0 then
+    LinesList := LinesList + Sep + IntToStr(LastLine);
+  UncoveredLinesElement := RootElement.Items.Add('uncovered_lines');
+  UncoveredLinesElement.Value := LinesList;
+end;
+
 procedure TXMLCoverageReport.AddClassInfo(
   ASourceFileElement: TJclSimpleXMLElem;
   const AClassInfo: TClassInfo);
@@ -254,24 +294,41 @@ procedure TXMLCoverageReport.AddMethodStats(
   const ARootElement: TJclSimpleXMLElem;
   const AMethod: TProcedureInfo);
 var
-  IsCovered: Integer;
+  LineNo, CoveredLineCount, IsCovered: Integer;
+  UncoveredLines: TList<Integer>;
 begin
-  if (AMethod.PercentCovered > 0) then
-    IsCovered := 1
-  else
-    IsCovered := 0;
+  UncoveredLines := TList<Integer>.Create;
+  try
+    CoveredLineCount := 0;
+    for LineNo in AMethod do
+      if AMethod.IsLineCovered(LineNo) then
+        Inc(CoveredLineCount)
+      else
+        UncoveredLines.Add(LineNo);
+    UncoveredLines.Sort;
 
-  AddCoverageElement(ARootElement, 'method, %', IsCovered, 1);
+    if CoveredLineCount > 0 then
+      IsCovered := 1
+    else
+      IsCovered := 0;
 
-  AddCoverageElement(
-    ARootElement, 'block, %',
-    AMethod.CoveredLineCount, AMethod.LineCount
-  );
+    AddCoverageElement(ARootElement, 'method, %', IsCovered, 1);
 
-  AddCoverageElement(
-    ARootElement, 'line, %',
-    AMethod.CoveredLineCount, AMethod.LineCount
-  );
+    AddCoverageElement(
+      ARootElement, 'block, %',
+      CoveredLineCount, AMethod.LineCount
+    );
+
+    AddCoverageElement(
+      ARootElement, 'line, %',
+      CoveredLineCount, AMethod.LineCount
+    );
+
+    if UncoveredLines.Count > 0 then
+      AddUncoveredLinesElement(ARootElement, UncoveredLines.ToArray);
+  finally
+    FreeAndNil(UncoveredLines);
+  end;
 end;
 
 procedure TXMLCoverageReport.AddCoverageElement(
