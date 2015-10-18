@@ -431,6 +431,8 @@ begin
     try
       if FMapScanner.LineNumberCount > 0 then
       begin
+        VerboseOutput(Format('%d Lines (%d Errors) from %d Segments',
+                              [FMapScanner.LineNumberCount, FMapScanner.LineNumberErrors, FMapScanner.SegmentCount]));
         if StartProcessToDebug then
         begin
           VerboseOutput('Started successfully');

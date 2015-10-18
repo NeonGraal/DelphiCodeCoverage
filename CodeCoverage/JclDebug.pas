@@ -1915,7 +1915,7 @@ begin
   if Result <= R then
   begin
     S := @FSegments[Result];
-    if (S.StartVA <= Addr) and (Addr < S.EndVA) then
+    if (S.StartVA <= Addr) and (Addr <= S.EndVA) then
       Exit;
   end;
 
@@ -1925,12 +1925,12 @@ begin
   begin
     Result := L + (R - L) div 2;
     S := @FSegments[Result];
-    if Addr >= S.EndVA then
+    if Addr > S.EndVA then
       L := Result + 1
     else
     begin
       R := Result - 1;
-      if (S.StartVA <= Addr) and (Addr < S.EndVA) then
+      if (S.StartVA <= Addr) and (Addr <= S.EndVA) then
       begin
         FLastAccessedSegementIndex := Result;
         Exit;
