@@ -618,7 +618,7 @@ begin
             UnitName := AMapScanner.SourceNameFromAddr(MapLineNumber.VA);
             if ExtractFileExt(UnitName) = '' then
               UnitName := ChangeFileExt(UnitName, '.pas');
-            UnitModuleName := ChangeFileExt(UnitName, '');
+            UnitModuleName := ChangeFileExt(ExtractFileName(UnitName), '');
 
             if (AModuleList.IndexOf(UnitModuleName) > -1)
             and (AModuleList.IndexOf(ModuleName) > -1)
@@ -659,7 +659,7 @@ begin
                 FLogManager.Log('BP FAILED to activate successfully');
             end
             else
-              SkippedModules.Add(UnitModuleName);
+              SkippedModules.Add(UnitModuleName + '(' + ModuleName + ')');
           end
           else
             FLogManager.Log(
