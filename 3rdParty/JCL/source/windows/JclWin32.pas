@@ -1290,7 +1290,11 @@ type
   PIMAGE_OPTIONAL_HEADER32 = ^IMAGE_OPTIONAL_HEADER32;
   {$EXTERNALSYM PIMAGE_OPTIONAL_HEADER32}
 
+  {$IF declared(_IMAGE_OPTIONAL_HEADER32)} // XE2+
+  IMAGE_OPTIONAL_HEADER32 = _IMAGE_OPTIONAL_HEADER32;
+  {$ELSE}
   IMAGE_OPTIONAL_HEADER32 = _IMAGE_OPTIONAL_HEADER;
+  {$IFEND}
   {$EXTERNALSYM IMAGE_OPTIONAL_HEADER32}
   TImageOptionalHeader32 = IMAGE_OPTIONAL_HEADER32;
   PImageOptionalHeader32 = PIMAGE_OPTIONAL_HEADER32;
@@ -3037,7 +3041,7 @@ I have not had this problem on Windows 98.
 Ray Lischner, author of Delphi in a Nutshell (coming later this year)
 http://www.bardware.com and http://www.tempest-sw.com
 }
-function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: DWORD; lpName: PChar): THandle; stdcall;
+function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: BOOL; lpName: PChar): THandle; stdcall;
 {$EXTERNALSYM CreateMutex}
 
 // alternative conversion for WinNT 4.0 SP6 and later (OSVersionInfoEx instead of OSVersionInfo)
@@ -8610,7 +8614,7 @@ begin
   Result := _AdjustTokenPrivileges(TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength);
 end;
 
-function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: DWORD; lpName: PChar): THandle; stdcall;
+function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: BOOL; lpName: PChar): THandle; stdcall;
   external kernel32 name 'CreateMutex' + AWSuffix;
 
 function GetVersionEx(var lpVersionInformation: TOSVersionInfoEx): BOOL; stdcall;

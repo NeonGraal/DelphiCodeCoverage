@@ -967,6 +967,7 @@ resourcestring
   RsCompressionWriteNotSupported     = 'write is not an supported operation.';
   RsCompressionResetNotSupported     = 'reset is not an supported operation.';
   RsCompressionSeekNotSupported      = 'seek is not an supported operation.';
+  RsCompressionUserAbort             = 'User abort';
   RsCompressionZLibZErrNo            = 'zlib returned: ERRNO';
   RsCompressionZLibZStreamError      = 'zlib returned: Stream error';
   RsCompressionZLibZDataError        = 'zlib returned: data error';
@@ -1005,6 +1006,7 @@ resourcestring
   RsCompressionUnknownError          = 'Unknown error';
   RsCompression7zLoadError           = 'Sevenzip: Failed to load 7z.dll';
   RsCompression7zReturnError         = 'Sevenzip: Error result (%.8x) "%s"';
+  RsCompression7zUnassignedStream    = 'Sevenzip: Stream object is not assigned';
   RsCompression7zOutArchiveError     = 'Sevenzip: Failed to get out archive interface for class %s';
   RsCompression7zInArchiveError      = 'Sevenzip: Failed to get in archive interface for class %s';
   RsCompression7zUnknownValueType    = 'Sevenzip: Unknown value type (%d) for property ID %d';
@@ -1127,6 +1129,22 @@ resourcestring
   RsCompressionSquashFSExtensions    = '*.squashfs';
   RsCompressionCramFSName            = 'CramFS archive';
   RsCompressionCramFSExtensions      = '*.cramfs';
+  RsCompressionExtName               = 'Ext filesystem archive';
+  RsCompressionExtExtensions         = '*.ext;*.ext2;*.ext3;*.ext4;*.img';
+  RsCompressionVMDKName              = 'Virtual Machine Disk archive';
+  RsCompressionVMDKExtensions        = '*.vmdk';
+  RsCompressionVDIName               = 'Virtual Disk Image archive';
+  RsCompressionVDIExtensions         = '*.vdi';
+  RsCompressionQcowName              = 'QEMU Copy On Write archive';
+  RsCompressionQcowExtensions        = '*.qcow;*.qcow2;*.qcow2c';
+  RsCompressionGPTName               = 'GUID Partition Table archive';
+  RsCompressionGPTExtensions         = '*.gpt;*.mbr';
+  RsCompressionRar5Name              = 'RAR v5 archive';
+  RsCompressionRar5Extensions        = '*.rar;*.r00';
+  RsCompressionIHexName              = 'IHex archive';
+  RsCompressionIHexExtensions        = '*.ihex';
+  RsCompressionHxsName               = 'Help 2.0 archive';
+  RsCompressionHxsExtensions         = '*.hxs;*.hxi;*.hxr;*.hxq;*.hxw;*.lit';
   RsCompressionDuplicate             = 'The file %s already exists in the archive';
   RsCompressionReplaceError          = 'At least one compression volume could not be replaced after an archive out-of-place update';
 
@@ -1938,6 +1956,8 @@ resourcestring
   RsOSVersionWin81              = 'Windows 8.1';
   RsOSVersionWin81RT            = 'Windows RT 8.1';
   RsOSVersionWinServer2012R2    = 'Windows Server 2012 R2';
+  RsOSVersionWin10              = 'Windows 10';
+  RsOSVersionWinServer2016      = 'Windows Server 2016';
 
   RsEditionWinXPHome            = 'Home Edition';
   RsEditionWinXPPro             = 'Professional';
@@ -1970,6 +1990,10 @@ resourcestring
   RsEditionWin81Pro             = 'Pro';
   RsEditionWin81Enterprise      = 'Enterprise';
   RsEditionWin81RT              = 'RT';
+  RsEditionWin10Home            = 'Home';
+  RsEditionWin10Pro             = 'Pro';
+  RsEditionWin10Enterprise      = 'Enterprise';
+  RsEditionWin10Education       = 'Education';
 
   RsProductTypeWorkStation      = 'Workstation';
   RsProductTypeServer           = 'Server';
