@@ -336,9 +336,15 @@ const
   NegInfinity = -Infinity;
   {$EXTERNALSYM NegInfinity}
 
+{$IFDEF WIN64}
+{$HPPEMIT 'static const double Infinity    =  1.0 / 0.0;'}
+{$HPPEMIT 'static const double NaN         =  0.0 / 0.0;'}
+{$HPPEMIT 'static const double NegInfinity = -1.0 / 0.0;'}
+{$ELSE}
 {$HPPEMIT 'static const Infinity    =  1.0 / 0.0;'}
 {$HPPEMIT 'static const NaN         =  0.0 / 0.0;'}
 {$HPPEMIT 'static const NegInfinity = -1.0 / 0.0;'}
+{$ENDIF WIN64}
 
 {$IFDEF CPU32}
 
@@ -3295,11 +3301,11 @@ procedure InitExceptObjProc;
 begin
   if LockedExchange(ExceptObjProcInitialized, 1) = 0 then
     if Win32Platform = VER_PLATFORM_WIN32_NT then
-      {$IFDEF FPC}
-      PrevExceptObjProc := Pointer(InterlockedExchange(TJclAddr(ExceptObjProc), TJclAddr(@GetExceptionObject)));
-      {$ELSE ~FPC}
+      {$IFDEF RTL200_UP} // Delphi 2009+
+      PrevExceptObjProc := InterlockedExchangePointer(ExceptObjProc, @GetExceptionObject);
+      {$ELSE}
       PrevExceptObjProc := Pointer(InterlockedExchange(Integer(ExceptObjProc), Integer(@GetExceptionObject)));
-      {$ENDIF ~FPC}
+      {$ENDIF RTL200_UP}
 end;
 {$ENDIF ~FPC}
 {$ENDIF MSWINDOWS}
