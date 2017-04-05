@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{FC98FAC7-E261-4363-B04E-2C0F432CCF9B}</ProjectGuid>
-        <ProjectVersion>15.4</ProjectVersion>
+        <ProjectVersion>18.1</ProjectVersion>
         <Config Condition="'$(Config)'==''">Release</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <MainSource>CodeCoverageTests.dpr</MainSource>
@@ -109,7 +109,7 @@
         <DCCReference Include="ClassInfoUnitTest.pas"/>
         <DCCReference Include="..\ClassInfoUnit.pas"/>
         <DCCReference Include="..\uConsoleOutput.pas"/>
-        <DCCReference Include="..\FileHelper.pas"/>
+        <DCCReference Include="..\EmmaFileHelper.pas"/>
         <DCCReference Include="EmmaDataInputTests.pas"/>
         <DCCReference Include="EmmaDataOutputTests.pas"/>
         <DCCReference Include="..\ModuleNameSpaceUnit.pas"/>

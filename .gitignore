@@ -9,5 +9,8 @@ CodeCoverage/CodeCoverage.drc
 build/*/*.*
 build/*/*/*.*
 dunit.ini
-*.exe
 *.res
+*.exe
+
+*.stat
+*.orig
